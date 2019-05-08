@@ -45,11 +45,10 @@ def print_history(guesses, marks):
 
 
 def validated_input(colours):
+    """Returns validated user input."""
     while True:
         guess = input("\nNext guess: ")
-        guess_set = set(guess)
-        colours_set = set(colours)
-        if guess_set.issubset(colours_set) and len(guess) == 4:
+        if set(guess).issubset(set(colours)) and len(guess) == 4:
             return guess
         print("Invalid: enter four colours from", ", ".join(colours))
 
