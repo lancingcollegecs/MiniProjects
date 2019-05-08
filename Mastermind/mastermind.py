@@ -23,7 +23,7 @@ def score(code, guess):
     return "".join(list("b" * black + "w" * white))
 
 
-def show_instructions():
+def show_instructions(colours):
     """Print game instructions"""
     print(
         """Mastermind
@@ -32,7 +32,8 @@ def show_instructions():
     can try to guess. For each colour you get in the right location, you
     will see one 'black' peg. For the correct colour in the wrong place,
     a 'white' peg.
-    """
+    """,
+        "The available colours are: ", ", ".join(colours)
     )
 
 
@@ -43,15 +44,25 @@ def print_history(guesses, marks):
         print(attempt + 1, guess, mark)
 
 
+def validated_input(colours):
+    while True:
+        guess = input("\nNext guess: ")
+        guess_set = set(guess)
+        colours_set = set(colours)
+        if guess_set.issubset(colours_set) and len(guess) == 4:
+            return guess
+        print("Invalid: enter four colours from", ", ".join(colours))
+
+
 def main():
     """Main game loop."""
     colours = list("roygbv")
     guesses = []
     marks = []
-    show_instructions()
+    show_instructions(colours)
     code = "".join(random.choices(colours, k=4))
     for _ in range(MAX_GUESSES):
-        guess = input("\nNext guess: ")
+        guess = validated_input(colours)
         mark = score(code, guess)
         marks.append(mark)
         guesses.append(guess)
@@ -59,8 +70,7 @@ def main():
         if mark == "bbbb":
             print("Well done, you win!")
             break
-    else:
-        print("The code was:", code)
+    print("The code was:", code)
 
 
 if __name__ == "__main__":
