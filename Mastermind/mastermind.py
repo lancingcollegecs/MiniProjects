@@ -20,7 +20,7 @@ def score(code, guess):
             code.remove(colour)
             white += 1
     white = white - black  # remove duplicates
-    return "".join(list("b" * black + "w" * white))
+    return "b" * black + "w" * white
 
 
 def show_instructions(colours):
